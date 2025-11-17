@@ -2,13 +2,13 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
+    # Clean up empty string status parameter
+    if params[:q] && params[:q][:status_eq] == ''
+      params[:q].delete(:status_eq)
+    end
+    
     @q = Task.ransack(params[:q])
     @tasks = @q.result(distinct: true)
-    
-    # Apply sorting if sort parameter is present
-    if params[:q] && params[:q][:s]
-      @tasks = @tasks.order(params[:q][:s])
-    end
   end
 
   def show
