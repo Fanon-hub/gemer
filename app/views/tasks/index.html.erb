@@ -3,38 +3,35 @@
 <%= search_form_for @q, url: tasks_path, method: :get do |f| %>
   <div>
     <%= f.label :title_or_description_cont, 'キーワード' %>
-    <%= f.text_field :title_or_description_cont, value: params.dig(:q, :title_or_description_cont) %>
+    <%= f.text_field :title_or_description_cont %>
   </div>
 
   <div>
     <%= f.label :deadline_gteq, '期間' %>
-    <%= f.date_field :deadline_gteq, value: params.dig(:q, :deadline_gteq) %>
+    <%= f.date_field :deadline_gteq %>
     〜
-    <%= f.date_field :deadline_lteq, value: params.dig(:q, :deadline_lteq) %>
+    <%= f.date_field :deadline_lteq %>
   </div>
 
   <div>
     <%= f.label :status_eq, 'ステータス' %>
     <div>
-      <% status_value = params.dig(:q, :status_eq) %>
-      
-      <%= f.radio_button :status_eq, '', checked: status_value.nil? || status_value == '', id: 'status_blank' %>
-      <%= f.label :status_eq, '指定なし', value: '', for: 'status_blank' %>
+      <%= f.radio_button :status_eq, '', id: 'status_blank' %>
+      <%= label_tag 'status_blank', '指定なし' %>
 
-      <%= f.radio_button :status_eq, 'todo', checked: status_value == 'todo', id: 'status_todo' %>
-      <%= f.label :status_eq, 'todo', value: 'todo', for: 'status_todo' %>
+      <%= f.radio_button :status_eq, 'todo', id: 'status_todo' %>
+      <%= label_tag 'status_todo', 'todo' %>
 
-      <%= f.radio_button :status_eq, 'doing', checked: status_value == 'doing', id: 'status_doing' %>
-      <%= f.label :status_eq, 'doing', value: 'doing', for: 'status_doing' %>
+      <%= f.radio_button :status_eq, 'doing', id: 'status_doing' %>
+      <%= label_tag 'status_doing', 'doing' %>
 
-      <%= f.radio_button :status_eq, 'done', checked: status_value == 'done', id: 'status_done' %>
-      <%= f.label :status_eq, 'done', value: 'done', for: 'status_done' %>
+      <%= f.radio_button :status_eq, 'done', id: 'status_done' %>
+      <%= label_tag 'status_done', 'done' %>
 
       <%= f.submit 'Search' %>
     </div>
   </div>
 <% end %>
-
 
 <table>
   <thead>
@@ -55,7 +52,7 @@
         <td><%= task.deadline&.strftime('%Y-%m-%d %H:%M') %></td>
         <td><%= link_to 'Show', task_path(task) %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task_path(task), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', task_path(task), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
