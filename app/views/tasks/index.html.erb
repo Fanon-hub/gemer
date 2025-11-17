@@ -1,6 +1,37 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Tasks</h1>
+
+<%= search_form_for @q, url: tasks_path, method: :get do |f| %>
+  <div>
+    <%= f.label :title_or_description_cont, 'キーワード' %>
+    <%= f.text_field :title_or_description_cont %>
+  </div>
+
+  <div>
+    <%= f.label :deadline_gteq, '期間' %>
+    <%= f.date_field :deadline_gteq, placeholder: '年/月/日' %>
+    〜
+    <%= f.date_field :deadline_lteq, placeholder: '年/月/日' %>
+  </div>
+
+  <div>
+    <%= f.label :status_eq, 'ステータス' %>
+    <div>
+      <%= f.radio_button :status_eq, '', checked: true, id: 'status_blank' %>
+      <%= f.label :status_eq, '指定なし', value: '', for: 'status_blank' %>
+
+      <%= f.radio_button :status_eq, 'todo', id: 'status_todo' %>
+      <%= f.label :status_eq, 'todo', value: 'todo', for: 'status_todo' %>
+
+      <%= f.radio_button :status_eq, 'doing', id: 'status_doing' %>
+      <%= f.label :status_eq, 'doing', value: 'doing', for: 'status_doing' %>
+
+      <%= f.radio_button :status_eq, 'done', id: 'status_done' %>
+      <%= f.label :status_eq, 'done', value: 'done', for: 'status_done' %>
+
+      <%= f.submit 'Search' %>
+    </div>
+  </div>
+<% end %>
 
 <table>
   <thead>
@@ -8,26 +39,21 @@
       <th>Title</th>
       <th>Description</th>
       <th>Status</th>
-      <th>Deadline</th>
+      <th><%= sort_link(@q, :deadline, 'Deadline') %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
-
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
         <td><%= task.title %></td>
         <td><%= task.description %></td>
         <td><%= task.status %></td>
-        <td><%= task.deadline.strftime("%Y-%m-%d %H:%M") %></td>
-        <td><%= link_to 'Show', task %></td>
+        <td><%= task.deadline&.strftime('%Y-%m-%d %H:%M') %></td>
+        <td><%= link_to 'Show', task_path(task) %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', task_path(task), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Task', new_task_path %>
