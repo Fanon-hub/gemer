@@ -16,7 +16,7 @@
   <div>
     <%= f.label :status_eq, 'ステータス' %>
     <div>
-      <%= f.radio_button :status_eq, '', id: 'status_blank' %>
+      <%= f.radio_button :status_eq, '', checked: true, id: 'status_blank' %>
       <%= label_tag 'status_blank', '指定なし' %>
 
       <%= f.radio_button :status_eq, 'todo', id: 'status_todo' %>
@@ -27,10 +27,10 @@
 
       <%= f.radio_button :status_eq, 'done', id: 'status_done' %>
       <%= label_tag 'status_done', 'done' %>
-
-      <%= f.submit 'Search' %>
     </div>
   </div>
+
+  <%= f.submit 'Search' %>
 <% end %>
 
 <table>

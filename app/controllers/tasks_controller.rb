@@ -2,15 +2,10 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    # Handle empty status parameter - remove it to show all tasks
-    if params[:q].present? && params[:q][:status_eq].present? && params[:q][:status_eq].blank?
-      search_params = params[:q].to_unsafe_h
-      search_params.delete(:status_eq)
-      @q = Task.ransack(search_params)
-    else
-      @q = Task.ransack(params[:q])
-    end
+    # Build ransack query
+    @q = Task.ransack(params[:q])
     
+    # Get results
     @tasks = @q.result(distinct: true)
   end
 
