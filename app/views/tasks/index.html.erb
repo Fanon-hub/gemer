@@ -16,7 +16,7 @@
   <div>
     <%= f.label :status_eq, 'ステータス' %>
     <div>
-      <%= f.radio_button :status_eq, '', checked: true, id: 'status_blank' %>
+      <%= f.radio_button :status_eq, '', checked: params.dig(:q, :status_eq).blank?, id: 'status_blank' %>
       <%= label_tag 'status_blank', '指定なし' %>
 
       <%= f.radio_button :status_eq, 'todo', id: 'status_todo' %>

@@ -2,6 +2,11 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
+    # Remove status_eq if blank (for "No preference")
+    if params[:q] && params[:q][:status_eq] == ""
+      params[:q].delete(:status_eq)
+    end
+
     # Build ransack query
     @q = Task.ransack(params[:q])
     
