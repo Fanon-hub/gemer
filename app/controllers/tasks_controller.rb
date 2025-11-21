@@ -9,7 +9,7 @@ class TasksController < ApplicationController
 
     # Build ransack query
     @q = Task.ransack(params[:q])
-    
+
     # Get results
     @tasks = @q.result(distinct: true)
   end

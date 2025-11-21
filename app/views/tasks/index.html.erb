@@ -3,14 +3,14 @@
 <%= search_form_for @q, url: tasks_path, method: :get do |f| %>
   <div>
     <%= f.label :title_or_description_cont, 'キーワード' %>
-    <%= f.text_field :title_or_description_cont %>
+    <%= f.text_field :title_or_description_cont, value: params.dig(:q, :title_or_description_cont) %>
   </div>
 
   <div>
     <%= f.label :deadline_gteq, '期間' %>
-    <%= f.date_field :deadline_gteq %>
+    <%= f.date_field :deadline_gteq, value: params.dig(:q, :deadline_gteq) %>
     〜
-    <%= f.date_field :deadline_lteq %>
+    <%= f.date_field :deadline_lteq, value: params.dig(:q, :deadline_lteq) %>
   </div>
 
   <div>
@@ -19,13 +19,13 @@
       <%= f.radio_button :status_eq, '', checked: params.dig(:q, :status_eq).blank?, id: 'status_blank' %>
       <%= label_tag 'status_blank', '指定なし' %>
 
-      <%= f.radio_button :status_eq, 'todo', id: 'status_todo' %>
+      <%= f.radio_button :status_eq, 'todo', checked: params.dig(:q, :status_eq) == 'todo', id: 'status_todo' %>
       <%= label_tag 'status_todo', 'todo' %>
 
-      <%= f.radio_button :status_eq, 'doing', id: 'status_doing' %>
+      <%= f.radio_button :status_eq, 'doing', checked: params.dig(:q, :status_eq) == 'doing', id: 'status_doing' %>
       <%= label_tag 'status_doing', 'doing' %>
 
-      <%= f.radio_button :status_eq, 'done', id: 'status_done' %>
+      <%= f.radio_button :status_eq, 'done', checked: params.dig(:q, :status_eq) == 'done', id: 'status_done' %>
       <%= label_tag 'status_done', 'done' %>
     </div>
   </div>
